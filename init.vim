@@ -23,7 +23,6 @@ set expandtab
 set shiftwidth=4
 set tabstop=4
 set hidden
-"set signcolumn=yes:2
 set signcolumn=no
 set relativenumber
 set number
@@ -49,8 +48,8 @@ set backup
 set updatetime=300 " Reduce time for highlighting other references
 set redrawtime=10000 " Allow more time for loading syntax on large files
 
-%s/\s\+$//e
-silent! %s/\s\+$// 
+" %s/\s\+$//e
+" silent! %s/\s\+$// 
 
 "remove red line
 set colorcolumn=0
@@ -101,7 +100,7 @@ set clipboard=unnamed
 " Mouse support
 set mouse=a
 set ruler
-"set cursorline
+set cursorline
 " command complete
 set wildmenu
 set wildmode=list:longest,full
@@ -162,7 +161,8 @@ Plug 'jiangmiao/auto-pairs'
 
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
-
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 "{{ The Basics }}
     Plug 'gmarik/Vundle.vim'                           " Vundle
@@ -188,8 +188,8 @@ Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
     Plug 'junegunn/limelight.vim'                      " Hyperfocus on a range
     Plug 'junegunn/vim-emoji'                          " Vim needs emojis!
 
-
-
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+Plug 'glepnir/dashboard-nvim'
 call plug#end()
 
 "autocmd VimEnter * NERDTree
@@ -215,11 +215,13 @@ highlight Function         ctermfg=1    ctermbg=none    cterm=none
 
 
 " nnoremap <C-f> :NERDTreeFocus<CR>
-nnoremap <C-b> :NERDTree<CR>
+nnoremap <C-m> n
+noremap <C-b> :NERDTree<CR>
 " nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-l> :call CocActionAsync('jumpDefinition')<CR>
 
 nmap <F8> :TagbarToggle<CR>
+nmap <C-t> :TagbarToggle<CR>
 
 :set completeopt-=preview " For No Previews
 
@@ -274,8 +276,9 @@ inoremap ii <Esc>
 
 set guifont=FiraCode\ NF:h16
 let NERDTreeMinimalUI=1
-nmap nr :NERDTree<CR> 
-nmap nn :NERDTreeToggle<CR>
+nnoremap nr :NERDTree<CR> 
+nnoremap nn :NERDTreeToggle<CR>
+nnoremap nf :NERDTreeFocus<CR>
 
 " Configuration example
 let g:floaterm_keymap_new    = 'tn'
@@ -283,12 +286,12 @@ let g:floaterm_keymap_prev   = 'tb'
 let g:floaterm_keymap_next   = 'tf'
 let g:floaterm_keymap_toggle = 'tt'
 
-nmap ff :Files<CR>
+nmap ff :Telescope<CR>
 nmap ne :tabedit C:\Users\danir\AppData\Local\nvim\init.vim<CR>
 nmap tk :FloatermKill<CR>
 "let g:neovide_transparency=0.8
 let g:neovide_cursor_vfx_mode = "sonicboom"
-"let g:neovide_cursor_vfx_mode = "railgun"
+"let g:neovide_cursor_vfx_mode = "railgun
 let g:neovide_cursor_animation_length=0.2
 let g:neovide_cursor_vfx_particle_lifetime=1.0
 let g:neovide_cursor_vfx_particle_density=15.0
@@ -297,8 +300,6 @@ let g:neovide_cursor_vfx_particle_phase=1.5
 let g:neovide_cursor_vfx_particle_curl=1.0
 let g:neovide_no_idle=v:true
 
-nmap vs :vs<CR>
-nmap hs :sp<CR>
 
 "let NERDTreeShowLineNumbers=1
 let NERDTreeShowHidden=1
@@ -323,3 +324,31 @@ autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_
 " Open the existing NERDTree on each new tab.
 autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
 
+
+" own commands 
+:command -nargs=0 Code cd E:/code
+
+" selecting and brackets
+vnoremap " c""<Esc>P
+vnoremap ' c''<Esc>P
+vnoremap f c''''''<Esc>hhP
+vnoremap F c""""""<Esc>hhP
+vnoremap ( c()<Esc>P
+vnoremap [ c[]<Esc>P
+vnoremap { c{}<Esc>P
+" Default value is clap
+let g:dashboard_default_executive ='telescope'
+let g:dashboard_custom_header = [
+\'███╗░░██╗██╗░░░██╗██╗███╗░░░███╗',
+\'████╗░██║██║░░░██║██║████╗░████║',
+\'██╔██╗██║╚██╗░██╔╝██║██╔████╔██║',
+\'██║╚████║░╚████╔╝░██║██║╚██╔╝██║',
+\'██║░╚███║░░╚██╔╝░░██║██║░╚═╝░██║',
+\'╚═╝░░╚══╝░░░╚═╝░░░╚═╝╚═╝░░░░░╚═╝',
+      \ ]
+nnoremap + <C-w>+
+nnoremap - <C-w><
+nnoremap _ <C-w>-
+nnoremap = <C-w>>
+nnoremap <Space>t <C-w>w
+nnoremap <Space>r <C-w>W
