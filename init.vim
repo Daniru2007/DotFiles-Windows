@@ -20,6 +20,9 @@ set splitright
 set expandtab
 set mouse=a
 set nowrap
+set number
+set incsearch
+set updatetime=50
 
 "remove red line
 set colorcolumn=0
@@ -49,7 +52,8 @@ let g:floaterm_height = 25
 
 "Plugins!
 call plug#begin('C:/Users/danir/AppData/Local/nvim/plugged')
-
+Plug 'tpope/vim-surround'
+Plug 'nvim-tree/nvim-tree.lua'
 " Plug 'Valloric/YouCompleteMe'
 Plug 'theprimeagen/harpoon'
 Plug 'jose-elias-alvarez/null-ls.nvim'
@@ -76,7 +80,9 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
 Plug 'lewis6991/gitsigns.nvim'
 
-Plug 'vimsence/vimsence'
+" Plug 'aurieh/discord.nvim'
+" Plug 'vimsence/vimsence'
+" Plug 'andweeb/presence.nvim'
 " Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'mbbill/undotree/'
 
@@ -93,6 +99,7 @@ Plug 'hrsh7th/cmp-buffer'       " Optional
 Plug 'hrsh7th/cmp-path'         " Optional
 Plug 'saadparwaiz1/cmp_luasnip' " Optional
 Plug 'hrsh7th/cmp-nvim-lua'     " Optional
+Plug 'folke/trouble.nvim'
 
 "  Snippets
 Plug 'L3MON4D3/LuaSnip'             " Required
@@ -172,7 +179,15 @@ nnoremap <Space>s <C-w>s
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>fh <cmd>Telescope git_files<cr>
+
+
+vnoremap J :m<Space>'>+1<Cr>gv=gv
+vnoremap K :m<Space>'<-2<Cr>gv=gv
+
+nnoremap J mzJ`z
+
+
 
 " nnoremap <leader>n :NERDTreeFocus<CR>
 " nnoremap <C-n> :NERDTree<CR>
@@ -215,13 +230,6 @@ let g:floaterm_keymap_prev   = '<LEADER>tb'
 let g:floaterm_keymap_next   = '<LEADER>tf'
 let g:floaterm_keymap_toggle = '<LEADER>tt'
 
-let g:vimsence_client_id = '439476230543245312'
-let g:vimsence_small_text = 'NeoVim'
-let g:vimsence_small_image = 'neovim'
-let g:vimsence_editing_details = 'Editing: {}'
-let g:vimsence_editing_state = 'Working on: {}'
-let g:vimsence_file_explorer_text = 'In NERDTree'
-let g:vimsence_file_explorer_details = 'Looking for files'
 
 
 " use <tab> for trigger completion and navigate to next complete item
@@ -253,7 +261,7 @@ lua vim.api.nvim_set_hl(0, 'Normal', {bg='none'})
 lua vim.api.nvim_set_hl(0, 'NormalFloat', {bg='none'})
 
 nmap <silent> <LEADER>ne :tabedit C:\Users\danir\AppData\Local\nvim\init.vim<CR>
-nmap <silent> <LEADER>pe :Explore <CR>
+" nmap <silent> <LEADER>pe :Explore <CR>
 
 
 " lua << EOF
@@ -314,8 +322,108 @@ EOF
 
 augroup fmt
   autocmd!
-  autocmd BufWritePre * undojoin | Neoformat
+  autocmd BufWritePre *   silent Neoformat
 augroup END
 
-let g:netrw_banner=0
+" nnoremap <silent> <LEADER>w :Neoformat<Cr>:w<Cr>
+
+" let g:netrw_banner=0
+let g:loaded_netrw = 1
+let g:loaded_netrwPlugin = 1
 set shortmess=I
+
+lua<<EOF
+
+-- OR setup with some options
+require("nvim-tree").setup({
+sort_by = "case_sensitive",
+view = {
+    width = 30,
+    mappings = {
+        list = {
+            { key = "u", action = "dir_up" },
+            },
+        },
+    },
+
+    renderer = {
+        group_empty = true,
+        },
+    filters = {
+        dotfiles = true,
+        },
+})
+
+EOF
+
+nmap <silent> <LEADER>pe :NvimTreeToggle <CR>
+
+let g:presence_auto_update         = 1
+let g:presence_neovim_image_text   = "The One True Text Editor"
+let g:presence_main_image          = "neovim"
+let g:presence_client_id           = "793271441293967371"
+let g:presence_debounce_timeout    = 10
+let g:presence_enable_line_number  = 1
+let g:presence_blacklist           = []
+let g:presence_buttons             = 1
+let g:presence_file_assets         = {}
+let g:presence_show_time           = 1
+
+let g:presence_editing_text        = "Editing %s"
+let g:presence_file_explorer_text  = "Browsing %s"
+let g:presence_git_commit_text     = "Committing changes"
+let g:presence_plugin_manager_text = "Managing plugins"
+let g:presence_reading_text        = "Reading %s"
+let g:presence_workspace_text      = "Working on %s"
+let g:presence_line_number_text    = "Line %s out of %s"
+let g:presence_main_image = "file"
+
+let g:vimsence_small_text = 'NeoVim'
+let g:vimsence_small_image = 'neovim'
+let g:vimsence_editing_details = 'Editing: {}'
+let g:vimsence_editing_state = 'Working on: {}'
+let g:vimsence_file_explorer_text = 'In Nvim Tree'
+let g:vimsence_file_explorer_details = 'Looking for files'
+
+lua << EOF
+  require("trouble").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  }
+EOF
+
+
+
+lua << EOF
+
+
+
+-- Mappings.
+local opts = { noremap=true, silent=true }
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+    local bufopts = { noremap=true, silent=true, buffer=bufnr }
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+    vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, bufopts)
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+end
+
+vim.diagnostic.config({
+  virtual_text = true
+})
+
+-- Show line diagnostics automatically in hover window
+-- vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
+
+
+EOF
+
+ nnoremap <silent> <LEADER>e :lua vim.diagnostic.open_float()<Cr>
