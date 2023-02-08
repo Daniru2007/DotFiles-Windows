@@ -31,6 +31,8 @@ my configuration [here](./wezterm.lua)
 
 ### Clink Configuration
 
+![Clink](imgs/clink.png)
+
 Clink add Unix like cool functionality for your terminal(cmd)
 Download it [here](https://github.com/chrisant996/clink)
 
