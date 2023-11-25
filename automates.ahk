@@ -2,7 +2,6 @@
 
 CapsLock::LCtrl
 
-; Google Search highlighted text
 ^+c::
 {
  Send, ^c
