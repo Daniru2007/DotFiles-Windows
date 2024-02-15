@@ -54,7 +54,6 @@ let g:floaterm_height = 25
 call plug#begin('C:/Users/danir/AppData/Local/nvim/plugged')
 Plug 'tpope/vim-surround'
 Plug 'nvim-tree/nvim-tree.lua'
-" Plug 'Valloric/YouCompleteMe'
 Plug 'theprimeagen/harpoon'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'sbdchd/neoformat'
@@ -67,11 +66,9 @@ Plug 'https://github.com/tpope/vim-commentary'
 Plug 'http://github.com/tpope/vim-surround'
 Plug 'voldikss/vim-floaterm'
 Plug 'kyazdani42/nvim-web-devicons'
-" Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'nvim-lua/popup.nvim'
-" Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
 
 " themes
 Plug 'kaicataldo/material.vim', { 'branch': 'main' }
@@ -80,10 +77,6 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
 Plug 'lewis6991/gitsigns.nvim'
 
-" Plug 'aurieh/discord.nvim'
-" Plug 'vimsence/vimsence'
-" Plug 'andweeb/presence.nvim'
-" Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'mbbill/undotree/'
 
 
@@ -230,28 +223,6 @@ let g:floaterm_keymap_prev   = '<LEADER>tb'
 let g:floaterm_keymap_next   = '<LEADER>tf'
 let g:floaterm_keymap_toggle = '<LEADER>tt'
 
-
-
-" use <tab> for trigger completion and navigate to next complete item
-" function! s:check_back_space() abort
-"   let col = col('.') - 1
-"   return !col || getline('.')[col - 1]  =~ '\s'
-" endfunction
-
-"     inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-"     inoremap <silent><expr> <C-x><C-z> coc#pum#visible() ? coc#pum#stop() : "\<C-x>\<C-z>"
-"     " remap for complete to use tab and <cr>
-"     inoremap <silent><expr> <TAB>
-"         \ coc#pum#visible() ? coc#pum#next(1):
-"         \ <SID>check_back_space() ? "\<Tab>" :
-"         \ coc#refresh()
-"     inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-"     inoremap <silent><expr> <c-space> coc#refresh()
-
-"     hi CocSearch ctermfg=12 guifg=#18A3FF
-"     hi CocMenuSel ctermbg=109 guibg=#13354A
-
-
 set signcolumn=yes
 
 set updatetime=300
@@ -261,53 +232,6 @@ lua vim.api.nvim_set_hl(0, 'Normal', {bg='none'})
 lua vim.api.nvim_set_hl(0, 'NormalFloat', {bg='none'})
 
 nmap <silent> <LEADER>ne :tabedit C:\Users\danir\AppData\Local\nvim\init.vim<CR>
-" nmap <silent> <LEADER>pe :Explore <CR>
-
-
-" lua << EOF
-" require'nvim-treesitter.configs'.setup {
-"   -- A list of parser names, or "all" (the four listed parsers should always be installed)
-"   ensure_installed = {  "python","javascript","typescript","rust","c", "lua", "vim", "help" },
-
-"   -- Install parsers synchronously (only applied to `ensure_installed`)
-"   sync_install = false,
-
-"   -- Automatically install missing parsers when entering buffer
-"   -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-"   auto_install = true,
-
-"   -- List of parsers to ignore installing (for "all")
-
-"   ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-"   -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
-
-"   highlight = {
-"     -- `false` will disable the whole extension
-"     enable = true,
-
-"     -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-"     -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-"     -- the name of the parser)
-"     -- list of language that will be disabled
-"     -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
-"     disable = function(lang, buf)
-"         local max_filesize = 100 * 1024 -- 100 KB
-"         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-"         if ok and stats and stats.size > max_filesize then
-"             return true
-"         end
-"     end,
-
-"     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-"     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-"     -- Using this option may slow down your editor, and you may see some duplicate highlights.
-"     -- Instead of true it can also be a list of languages
-"     additional_vim_regex_highlighting = false,
-"   },
-" }
-" EOF
-
-
 
 
 
